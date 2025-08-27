@@ -11,5 +11,6 @@ def add(x=-1, y=-1, z=-1):
     """
     return x+y+z
 
+
 if __name__ == "__main__":
-    print(f"{add() = }")
+    print(f"{add()=}")
