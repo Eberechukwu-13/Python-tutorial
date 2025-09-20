@@ -1,0 +1,19 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Python version
+.python-version
+
+# vscode settings
+.vscode
+
+# Envaronment variables
+.env

@@ -1,0 +1,80 @@
+[project]
+name = "python-tutorial"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "multipledispatch>=1.0.0",
+    "numpy>=2.3.3",
+    "pillow>=11.3.0",
+    "python-dotenv>=1.1.1",
+    "pytz>=2025.2",
+    "requests>=2.32.5",
+]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.18.2",
+    "pytest>=8.4.2",
+    "ruff>=0.13.1",
+]
+
+[tool.ruff.lint]
+select = [
+     "E4",
+    "E7",
+    "E9", 
+    # pyflakes
+    "F",
+    # flake8-builtins
+    "A",
+    # flake8-unused-arguments
+    "ARG",
+    #flake8-annotation
+    "ANN",
+    # flake-bugbear
+    "B",
+    # flake8-blind-except
+    "BLE",
+    # flake8-comprehensions
+    "C4",
+    # flake8-commas
+    "COM",
+    # pydocstyle
+    "D",
+    "E",
+    # flake8-errmsg
+    "EM",
+    # flynt
+    "FLY",
+    # isort
+    "I",
+    # flake8-implicit-str-concat
+    "ISC",
+    # pep 8-naming
+    "N",
+    # perflint
+    "PERF",
+    # flake8-pie
+    "PIE",
+    # flake8-pytest-style
+    "PT",
+    # pylint
+    "PL",
+    # flake8-raise
+    "RSE",
+    # flake8-simplify
+    "SIM",
+    # Ruff-specific rules
+    "RUF",
+    # pyupgrade
+    "UP",
+    # tryceratops
+    "TRY"
+]
+
+ignore = [
+    # line to long
+    "E501"
+]
