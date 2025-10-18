@@ -1,6 +1,6 @@
 """Utility functions."""
 
-from collections.abc import Sequence
+from collections.abc import Iterator, Sequence
 from typing import overload
 
 type Numeric = int | float | complex
@@ -26,16 +26,46 @@ def add(arg1=-1, arg2=-1.1, arg3=-1j):
     """Add the values of arg1, arg2, and arg3.
 
     Args:
-        arg1 (Numeric | Sequence): Defaults to -1.
-        arg2 (Numeric | Sequence): Defaults to -1.1.
-        arg3 (Numeric | Sequence): Defaults to -1j.
+        arg1 (NumericOrSequence): Defaults to -1.
+        arg2 (NumericOrSequence): Defaults to -1.1.
+        arg3 (NumericOrSequence): Defaults to -1j.
 
     Returns:
-        Numeric | Sequence: the addition of the values of arg1, arg2 and arg3.
+        NumericOrSequence: the addition of the values of arg1, arg2 and arg3.
 
     """
     return arg1 + arg2 + arg3
 
 
+def find_substring(
+    sub: str = "t",
+    string: str = "i love python, git and github.",
+    start: int | None = 0,
+    stop: int | None = None,
+) -> Iterator[int | None]:
+    """Find the index(es) of substring 'sub' in text 'string'.
+
+    Args:
+        sub (str): substring to search in 'string'. Defaults to "t".
+        string (str): text to search substring 'sub'. Defaults to "i love python, git and github.".
+        start (int | None): begine at this given ihdex position to search. Defaults to 0.
+        stop (int | None): end search at this given index position. Defaults to None.
+
+    Yields:
+        Iterator[int | None]: index of the substring 'sub'.
+
+    """
+    count = string.count(sub, start, stop)
+
+    for _ in range(count):
+        index = string.find(sub, start, stop)
+        yield index
+        start = index + 1
+
+
 if __name__ == "__main__":
     print(f"{add() = }")
+
+    print(
+        f"The indexes of the substring 'sub' in the text 'string' are: {list(find_substring())}",
+    )
