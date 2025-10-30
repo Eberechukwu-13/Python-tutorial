@@ -3,6 +3,8 @@
 from collections.abc import Iterator, Sequence
 from typing import overload
 
+from util_module import str_count
+
 type Numeric = int | float | complex
 
 type NumericOrSequence = Numeric | Sequence
@@ -41,30 +43,30 @@ def find_substring(
     sub: str = "t",
     string: str = "i love python, git and github.",
     start: int | None = 0,
-    stop: int | None = None,
+    end: int | None = None,
 ) -> Iterator[int | None]:
     """Find the index(es) of substring 'sub' in text 'string'.
 
     Args:
         sub (str): substring to search in 'string'. Defaults to "t".
         string (str): text to search substring 'sub'. Defaults to "i love python, git and github.".
-        start (int | None): begine at this given ihdex position to search. Defaults to 0.
-        stop (int | None): end search at this given index position. Defaults to None.
+        start (int | None, optional): begine at this given ihdex position to search. Defaults to 0.
+        end (int | None, optional): stop search at this given index position. Defaults to None.
 
     Yields:
         Iterator[int | None]: index of the substring 'sub'.
 
     """
-    count = string.count(sub, start, stop)
+    count = str_count(string, sub, start, end)
 
     for _ in range(count):
-        index = string.find(sub, start, stop)
+        index = string.find(sub, start, end)
         yield index
         start = index + 1
 
 
 if __name__ == "__main__":
-    print(f"{add() = }")
+    # print(f"{add() = }")
 
     print(
         f"The indexes of the substring 'sub' in the text 'string' are: {list(find_substring())}",
