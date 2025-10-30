@@ -27,7 +27,7 @@ class TestAdd:
     @pytest.mark.parametrize("expected", [-2.1 - 1j])
     def test_add_default_values(
         self,
-        add: Callable[..., Numeric],
+        add: Callable[[], Numeric],
         expected: Numeric,
     ) -> None:
         """Test add function with default values."""
