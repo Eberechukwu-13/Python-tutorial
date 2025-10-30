@@ -3,7 +3,7 @@
 from collections.abc import Iterator, Sequence
 from typing import overload
 
-from util_module import str_count
+from util_module import str_count, str_find
 
 type Numeric = int | float | complex
 
@@ -60,7 +60,7 @@ def find_substring(
     count = str_count(string, sub, start, end)
 
     for _ in range(count):
-        index = string.find(sub, start, end)
+        index = str_find(sub, string, start, end)
         yield index
         start = index + 1
 
