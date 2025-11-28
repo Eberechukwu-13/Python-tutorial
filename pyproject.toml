@@ -5,7 +5,6 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
-    "multipledispatch>=1.0.0",
     "numpy>=2.3.3",
     "pillow>=11.3.0",
     "python-dotenv>=1.1.1",
@@ -22,61 +21,53 @@ dev = [
     "ruff>=0.13.1",
 ]
 
+[tool.pytest.ini_options]
+addopts = ["-vs", "--html=report.html"]
+
 [tool.ruff.lint]
 select = [
      "E4",
     "E7",
     "E9", 
-    # pyflakes
-    "F",
-    # flake8-builtins
-    "A",
-    # flake8-unused-arguments
-    "ARG",
-    #flake8-annotation
-    "ANN",
-    # flake-bugbear
-    "B",
-    # flake8-blind-except
-    "BLE",
-    # flake8-comprehensions
-    "C4",
-    # flake8-commas
-    "COM",
-    # pydocstyle
-    "D",
+    "F", # pyflakes
+    "A", # flake8-builtins
+    "ARG", # flake8-unused-arguments
+    "ANN", # flake8-annotation
+    "B", # flake-bugbear
+    "BLE", # flake8-blind-except
+    "C4", # flake8-comprehensions
+    "COM", # flake8-commas
+    "D", # pydocstyle
     "E",
-    # flake8-errmsg
-    "EM",
-    # flynt
-    "FLY",
-    # isort
-    "I",
-    # flake8-implicit-str-concat
-    "ISC",
-    # pep 8-naming
-    "N",
-    # perflint
-    "PERF",
-    # flake8-pie
-    "PIE",
-    # flake8-pytest-style
-    "PT",
-    # pylint
-    "PL",
-    # flake8-raise
-    "RSE",
-    # flake8-simplify
-    "SIM",
-    # Ruff-specific rules
-    "RUF",
-    # pyupgrade
-    "UP",
-    # tryceratops
-    "TRY"
+    "EM", # flake8-errmsg
+    "FLY", # flynt
+    "I", # isort
+    "ISC", # flake8-implicit-str-concat
+    "N", # pep 8-naming
+    "PERF", # perflint
+    "PIE", # flake8-pie
+    "PT", # flake8-pytest-style
+    "PL", # pylint
+    "RSE", # flake8-raise
+    "SIM", # flake8-simplify
+    "RUF", # Ruff-specific rules
+    "UP", # pyupgrade
+    "TRY", # tryceratops
 ]
 
 ignore = [
-    # line to long
-    "E501"
+    "E501", # line to long
+    "PLR0913" # Too many arguments in function difinition
 ]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["E402"]
+
+"test_*.py" = [
+    "D102", # Missing docstring in public method
+    "D103", # Missing docstring in public function
+]
+
+"*.ipynb" = []
+
+"**/{tests,docs,toolsl}/*" = ["E402"]

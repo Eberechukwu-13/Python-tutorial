@@ -7,8 +7,6 @@ from util_module import str_count, str_find
 
 type Numeric = int | float | complex
 
-type NumericOrSequence = Numeric | Sequence
-
 
 @overload
 def add() -> Numeric: ...
@@ -16,12 +14,6 @@ def add() -> Numeric: ...
 def add(arg1: Numeric, arg2: Numeric, arg3: Numeric) -> Numeric: ...
 @overload
 def add(arg1: Sequence, arg2: Sequence, arg3: Sequence) -> Sequence: ...
-@overload
-def add(
-    arg1: NumericOrSequence,
-    arg2: NumericOrSequence,
-    arg3: NumericOrSequence,
-) -> NumericOrSequence: ...
 
 
 def add(arg1=-1, arg2=-1.1, arg3=-1j):
@@ -44,7 +36,7 @@ def find_substring(
     string: str = "i love python, git and github.",
     start: int | None = 0,
     end: int | None = None,
-) -> Iterator[int | None]:
+) -> Iterator[int]:
     """Find the index(es) of substring 'sub' in text 'string'.
 
     Args:
@@ -54,10 +46,12 @@ def find_substring(
         end (int | None, optional): stop search at this given index position. Defaults to None.
 
     Yields:
-        Iterator[int | None]: index of the substring 'sub'.
+        Iterator[int]: index of the substring 'sub'.
 
     """
-    count = str_count(string, sub, start, end)
+    count = str_count(sub, string, start, end)
+    if not count:
+        yield -1
 
     for _ in range(count):
         index = str_find(sub, string, start, end)
@@ -66,7 +60,7 @@ def find_substring(
 
 
 if __name__ == "__main__":
-    # print(f"{add() = }")
+    print(f"{add() = }")
 
     print(
         f"The indexes of the substring 'sub' in the text 'string' are: {list(find_substring())}",

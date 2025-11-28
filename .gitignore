@@ -17,3 +17,9 @@ wheels/
 
 # Envaronment variables
 .env
+
+# html report css style
+assets/
+
+# pytest html repert
+*.html

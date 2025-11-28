@@ -2,16 +2,16 @@
 
 
 def str_count(
-    string: str,
     sub: str,
+    string: str,
     start: int | None = None,
     end: int | None = None,
 ) -> int:
     """Count the number(s) of substring 'sub' in text 'string'.
 
     Args:
-        string (str): text to count substring 'sub'.
         sub (str): substring to count in string.
+        string (str): text to count substring 'sub'.
         start (int | None, optional): start at this given index position. Defaults to None.
         end (int | None, optional): stop at this given indec position. Defaults to None.
 
