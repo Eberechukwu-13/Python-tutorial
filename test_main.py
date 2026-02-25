@@ -98,7 +98,7 @@ class TestFindSubstring:
         return main.find_substring
 
     @pytest.fixture(params=[TypeError, AttributeError])
-    def error(self, request: pytest.FixtureRequest) -> Exception:
+    def error(self, request: pytest.FixtureRequest) -> type[Exception]:
         return request.param
 
     def test_find_substring_default_values(
@@ -107,43 +107,64 @@ class TestFindSubstring:
         mock_str_find: MagicMock,
         find_substring: Callable[[], Iterator[int]],
     ) -> None:
-        count: Final[int] = 3
-        expected = [9, 17, 25]
+        expected: Final[list[int]] = [9, 17, 25]
 
-        mock_str_count.return_value = 3
+        mock_str_count.return_value = len(expected)
         mock_str_find.side_effect = expected
 
         assert list(find_substring()) == expected
 
         assert mock_str_count.call_count == 1
-        assert mock_str_find.call_count == count
+        assert mock_str_find.call_count == len(expected)
 
         mock_str_count.assert_called_once_with(
-            "t",
-            "i love python, git and github.",
-            0,
-            None,
+            sub="t",
+            string="i love python, git and github.",
+            start=0,
+            end=None,
         )
 
         mock_str_find.assert_any_call(
-            "t",
-            "i love python, git and github.",
-            10,
-            None,
+            sub="t",
+            string="i love python, git and github.",
+            start=10,
+            end=None,
         )
 
         mock_str_find.assert_called_with(
-            "t",
-            "i love python, git and github.",
-            18,
-            None,
+            sub="t",
+            string="i love python, git and github.",
+            start=18,
+            end=None,
         )
 
         mock_str_count.assert_has_calls(
-            [call("t", "i love python, git and github.", 0, None)],
+            [call(sub="t", string="i love python, git and github.", start=0, end=None)],
         )
 
-        mock_str_find.assert_has_calls(mock_str_find.mock_calls)
+        # mock_str_find.assert_has_calls(mock_str_find.call_args_list)
+        mock_str_find.assert_has_calls(
+            [
+                call(
+                    sub="t",
+                    string="i love python, git and github.",
+                    start=0,
+                    end=None,
+                ),
+                call(
+                    sub="t",
+                    string="i love python, git and github.",
+                    start=10,
+                    end=None,
+                ),
+                call(
+                    sub="t",
+                    string="i love python, git and github.",
+                    start=18,
+                    end=None,
+                ),
+            ],
+        )
 
     def test_find_substring_none_found(
         self,
@@ -152,22 +173,22 @@ class TestFindSubstring:
         find_substring: Callable[[str, str], Iterator[int]],
     ) -> None:
         mock_str_count.return_value = 0
-        mock_str_find.return_value = [-1]
+        mock_str_find.return_value = -1
 
         assert list(find_substring("2", "python")) == [-1]
 
-        mock_str_count.assert_called_once_with("2", "python", 0, None)
+        mock_str_count.assert_called_once_with("2", "python", start=0, end=None)
         mock_str_find.assert_not_called()
 
     def test_find_substring_error(
         self,
         mock_str_count: MagicMock,
         mock_str_find: MagicMock,
-        find_substring: Callable[[], Iterator[int]],
         error: type[Exception],
+        find_substring: Callable[[], Iterator[int]],
     ) -> None:
         mock_str_count.side_effect = error
-        mock_str_find.return_value = [None]
+        mock_str_find.return_value = None
 
         with pytest.raises(error) as exception_info:
             assert list(find_substring()) == [None]
@@ -205,19 +226,22 @@ class TestFindSubstring:
     ) -> None:
         match expected:
             case [0, 3]:
-                count = 2
-
-                mock_str_count.return_value = count
+                mock_str_count.return_value = len(expected)
                 mock_str_find.side_effect = expected
 
                 assert list(find_substring(sub, string, start, end)) == expected
 
                 assert mock_str_count.call_count == 1
-                assert mock_str_find.call_count == count
+                assert mock_str_find.call_count == len(expected)
 
-                mock_str_count.assert_has_calls([call(sub, string, start, end)])
+                mock_str_count.assert_has_calls(
+                    [call(sub, string, start, end)],
+                )
                 mock_str_find.assert_has_calls(
-                    [call(sub, string, start, end), call(sub, string, 1, end)],
+                    [
+                        call(sub, string, start, end),
+                        call(sub, string, 1, end),
+                    ],
                 )
 
             case [5]:
@@ -229,38 +253,44 @@ class TestFindSubstring:
                 assert mock_str_count.call_count == 1
                 assert mock_str_find.call_count == 1
 
-                mock_str_count.assert_called_once_with(sub, string, start, end)
-                mock_str_find.assert_called_once_with(sub, string, start, end)
+                mock_str_count.assert_called_once_with(
+                    sub,
+                    string,
+                    start,
+                    end,
+                )
+                mock_str_find.assert_called_once_with(
+                    sub,
+                    string,
+                    start,
+                    end,
+                )
 
             case [2, 5, 6]:
-                count = 3
-
-                mock_str_count.return_value = count
+                mock_str_count.return_value = len(expected)
                 mock_str_find.side_effect = expected
 
                 assert list(find_substring(sub, string, start, end)) == expected
 
                 assert mock_str_count.call_count == 1
-                assert mock_str_find.call_count == count
+                assert mock_str_find.call_count == len(expected)
 
                 assert mock_str_count.called
-                mock_str_find.assert_called()
+                assert mock_str_find.called
 
                 mock_str_find.assert_any_call(sub, string, 6, end)
 
             case [0, 1, 2, 3, 4, 5, 6]:
-                count = 7
-
-                mock_str_count.return_value = count
+                mock_str_count.return_value = len(expected)
                 mock_str_find.side_effect = expected
 
                 assert list(find_substring(sub, string, start, end)) == expected
 
-                mock_str_count.call_count = 1
-                mock_str_find.call_count = count
+                assert mock_str_count.call_count == 1
+                assert mock_str_find.call_count == len(expected)
 
             case [1]:
                 mock_str_count.return_value = 1
-                mock_str_find.side_effect = [0]
+                mock_str_find.return_valuet = 0
 
                 assert list(find_substring(sub, string, start, end)) == expected

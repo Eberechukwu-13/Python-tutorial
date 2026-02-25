@@ -59,9 +59,33 @@ def find_substring(
         start = index + 1
 
 
+def calculate_capacity(
+    *,
+    inner_diameter: float = 12.25,
+    outer_diameter: float = 0,
+) -> float:
+    """Calculate annular capacity or capacity of open hole, casing, drill pipe and tubing by setting outer_diameter to zero.
+
+    Args:
+        outer_diameter (float): outer diameter of casing or open hole. Default to 12.25.
+        inner_diameter (float): inner diameter of casing, drill pip or tubing. Default to 0.
+
+    Returns:
+        float: capacity.
+
+    """
+
+    def square(diameter: float) -> float:
+        return pow(diameter, 2)
+
+    return round((square(inner_diameter) - square(outer_diameter)) / 1029.4, 4)
+
+
 if __name__ == "__main__":
     print(f"{add() = }")
 
     print(
         f"The indexes of the substring 'sub' in the text 'string' are: {list(find_substring())}",
     )
+
+    print(f"{calculate_capacity() = }")

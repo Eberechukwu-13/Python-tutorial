@@ -25,7 +25,7 @@ def str_count(
 def str_find(
     sub: str,
     string: str,
-    start: int | None = 0,
+    start: int | None = None,
     end: int | None = None,
 ) -> int:
     """Find the index of substring 'sub' in text 'string'.
@@ -33,7 +33,7 @@ def str_find(
     Args:
         sub (str): substring to search in 'string'.
         string (str): text to search substring 'sub'.
-        start (int | None, optional): begine at this given ihdex position to search. Defaults to 0.
+        start (int | None, optional): begine at this given ihdex position to search. Defaults to None.
         end (int | None, optional): stop search at this given index position. Defaults to None.
 
     Returns:
