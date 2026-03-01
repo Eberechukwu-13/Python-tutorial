@@ -294,3 +294,53 @@ class TestFindSubstring:
                 mock_str_find.return_valuet = 0
 
                 assert list(find_substring(sub, string, start, end)) == expected
+
+
+class TestCalculateCapacity:
+    """Test calculate_capacity."""
+
+    @pytest.fixture(scope="class")
+    def calculate_capacity(self) -> Callable[..., float]:
+        return main.calculate_capacity
+
+    @pytest.fixture(
+        params=[
+            (12.25, 9.625, 0.0558),
+            (0.0, 12.25, -0.1458),
+            (7, 6, 0.0126),
+            (0, 0, 0),
+        ],
+    )
+    def arguments(self, request: pytest.FixtureRequest) -> tuple[float, float, float]:
+        return request.param
+
+    def test_calculate_capacity_default_values(
+        self,
+        calculate_capacity: Callable[[], float],
+    ) -> None:
+        expected: Final[float] = 0.1458
+
+        assert calculate_capacity() == expected
+
+    def test_calculate_capacity_error(
+        self,
+        calculate_capacity: Callable[..., float],
+    ) -> None:
+        with pytest.raises(TypeError) as exception_info:
+            calculate_capacity(inner_diameter=8.9, outer_diameter="7.2")
+        assert exception_info.type is TypeError
+
+    def test_calculate_capacity(
+        self,
+        arguments: tuple[float, float, float],
+        calculate_capacity: Callable[..., float],
+    ) -> None:
+        inner_diameter, outer_diameter, expected = arguments
+
+        assert (
+            calculate_capacity(
+                inner_diameter=inner_diameter,
+                outer_diameter=outer_diameter,
+            )
+            == expected
+        )
